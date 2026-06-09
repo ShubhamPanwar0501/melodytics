@@ -1,0 +1,77 @@
+@use 'styles/variables' as v;
+@use 'styles/mixins' as m;
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: v.$spacing-xl;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    @include m.flex-between;
+    margin-bottom: v.$spacing-xl;
+    flex-wrap: wrap;
+    gap: v.$spacing-lg;
+
+    @include m.respond-to(v.$breakpoint-md) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.brand {
+    h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(to right, v.$color-primary, v.$color-accent);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    p {
+        color: v.$color-text-muted;
+        font-size: 0.9rem;
+    }
+}
+
+.main {
+    flex: 1;
+}
+
+.actions {
+    @include m.flex-between;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: v.$spacing-lg;
+    margin-top: v.$spacing-xl;
+}
+
+.card {
+    @include m.glassmorphism;
+    padding: v.$spacing-lg;
+    border-radius: v.$border-radius-lg;
+}
+
+.loading,
+.error,
+.empty {
+    text-align: center;
+    padding: v.$spacing-xl;
+    @include m.glassmorphism;
+    border-radius: v.$border-radius-lg;
+}
+
+.footer {
+    margin-top: v.$spacing-xl;
+    padding-top: v.$spacing-lg;
+    border-top: 1px solid v.$color-border;
+    color: v.$color-text-muted;
+    text-align: center;
+    font-size: 0.8rem;
+}

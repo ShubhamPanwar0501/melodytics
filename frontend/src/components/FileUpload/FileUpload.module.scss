@@ -1,0 +1,46 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.wrapper {
+    margin-bottom: v.$spacing-lg;
+}
+
+.dropzone {
+    @include m.flex-center;
+    @include m.glassmorphism;
+    padding: v.$spacing-xl;
+    border-radius: v.$border-radius-lg;
+    border: 2px dashed v.$color-border;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 120px;
+    text-align: center;
+    flex-direction: column;
+    gap: v.$spacing-sm;
+
+    &:hover {
+        border-color: v.$color-primary;
+        background: rgba(99, 102, 241, 0.05);
+    }
+
+    span {
+        color: v.$color-text-muted;
+        font-size: 0.95rem;
+    }
+}
+
+.status {
+    font-weight: 500;
+
+    &.uploading {
+        color: v.$color-primary;
+    }
+
+    &.done {
+        color: v.$color-accent;
+    }
+
+    &.error {
+        color: v.$color-error;
+    }
+}

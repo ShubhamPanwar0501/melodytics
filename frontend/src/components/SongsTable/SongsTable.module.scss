@@ -1,0 +1,73 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.container {
+    @include m.glassmorphism;
+    border-radius: v.$border-radius-lg;
+    overflow: hidden;
+    margin-bottom: v.$spacing-xl;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+th {
+    background: v.$color-hover;
+    color: v.$color-text-muted;
+    font-weight: 600;
+    text-align: left;
+    padding: v.$spacing-md;
+    white-space: nowrap;
+
+    &.sortable {
+        cursor: pointer;
+
+        &:hover {
+            color: v.$color-text;
+        }
+    }
+}
+
+td {
+    padding: v.$spacing-md;
+    border-bottom: 1px solid v.$color-border;
+    color: v.$color-text;
+}
+
+tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.pagination {
+    @include m.flex-between;
+    padding: v.$spacing-md;
+    background: v.$color-surface-soft;
+
+    .controls {
+        display: flex;
+        gap: v.$spacing-sm;
+    }
+}
+
+.btn {
+    padding: v.$spacing-xs v.$spacing-md;
+    background: v.$color-border;
+    color: v.$color-text;
+    font-size: 0.85rem;
+
+    &:hover:not(:disabled) {
+        background: v.$color-hover;
+    }
+}
+
+.pageInfo {
+    color: v.$color-text-muted;
+    font-size: 0.85rem;
+}

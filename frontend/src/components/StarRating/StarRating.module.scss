@@ -1,0 +1,27 @@
+@use '../../styles/variables' as v;
+
+.stars {
+    display: flex;
+    gap: v.$spacing-xs;
+}
+
+.star {
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: v.$color-border;
+    transition: all 0.2s ease;
+    user-select: none;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+
+    &.active {
+        color: #fca311;
+    }
+}
+
+.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
