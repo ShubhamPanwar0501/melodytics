@@ -75,13 +75,49 @@ docker compose logs -f api
 ## Testing
 
 ### Backend
+Run the backend tests from the project root:
 ```bash
-docker compose exec api pytest
+backend/venv/bin/pytest backend/tests
 ```
 
-### Frontend
+If you are inside the `backend` directory and using an activated virtual environment:
 ```bash
-docker compose exec frontend npm test
+pytest tests
+```
+
+Generate a terminal coverage report with missing lines:
+```bash
+backend/venv/bin/pytest backend/tests --cov=app --cov-report=term-missing
+```
+
+Generate an HTML coverage report:
+```bash
+backend/venv/bin/pytest backend/tests --cov=app --cov-report=html
+```
+
+Open the backend HTML report at:
+```text
+htmlcov/index.html
+```
+
+When running from the project root, the report directory is created at `htmlcov/`.
+
+### Frontend
+Run the frontend tests:
+```bash
+cd frontend
+npm test
+```
+
+Generate frontend coverage:
+```bash
+cd frontend
+npm run test:coverage
+```
+
+Open the frontend HTML report at:
+```text
+frontend/coverage/lcov-report/index.html
 ```
 
 ## Architecture

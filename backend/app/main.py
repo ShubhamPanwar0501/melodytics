@@ -1,11 +1,20 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from .core.config import settings
+from .core.logging_config import configure_logging
+from .middleware.logging import LoggingMiddleware
+from .middleware.exception_handler import global_exception_handler
 from .routers import songs, ingest
 
+# ── Logging ──────────────────────────────────────────────────────────────────
+configure_logging()
+
+# ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(title="Melodytics API")
 
-# Configure CORS
+# ── Middleware (order matters: first added = outermost wrap) ──────────────────
+# 1. CORS — must be outermost so pre-flight OPTIONS requests are handled first
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -14,13 +23,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include Routers (will be implemented next)
+# 2. Request / response logging
+app.add_middleware(LoggingMiddleware)
+
+# ── Global exception handler ──────────────────────────────────────────────────
+app.add_exception_handler(Exception, global_exception_handler)
+
+# ── Routers ───────────────────────────────────────────────────────────────────
 app.include_router(songs.router)
 app.include_router(ingest.router)
 
+
 @app.get("/api/health")
-def health_check():
+async def health_check():
     return {"status": "ok"}
+
 
 if __name__ == "__main__":
     import uvicorn

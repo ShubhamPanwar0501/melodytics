@@ -17,8 +17,8 @@ export const getSongs = async (
     return response.data;
 };
 
-export const searchSong = async (title: string): Promise<Song> => {
-    const response = await api.get<Song>('/songs/search', {
+export const searchSong = async (title: string): Promise<Song[]> => {
+    const response = await api.get<Song[]>('/songs/search', {
         params: { title },
     });
     return response.data;

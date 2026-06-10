@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from ..repositories.song_repository import SongRepository
 
 class IngestService:
@@ -33,8 +33,8 @@ class IngestService:
                 rows.append(row)
         return rows
 
-    def ingest_data(self, db: Session, data: dict) -> int:
+    async def ingest_data(self, db: AsyncSession, data: dict) -> int:
         rows = self.pivot(data)
         if not rows:
             return 0
-        return self.repository.bulk_upsert(db, rows)
+        return await self.repository.bulk_upsert(db, rows)

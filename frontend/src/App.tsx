@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const [sortBy, setSortBy] = useState('title');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
 
-  const { data, isLoading, error } = useSongs(page, pageSize, sortBy, order);
+  const { data, isLoading, isFetching, error } = useSongs(page, pageSize, sortBy, order);
 
   const handleSort = (field: string) => {
     if (sortBy === field) {
@@ -42,7 +42,7 @@ const App: React.FC = () => {
       <main className={styles.main}>
         <SearchBar />
 
-        {isLoading ? (
+        {isLoading && !data ? (
           <div className={styles.loading}>Analyzing your playlist...</div>
         ) : error ? (
           <div className={styles.error}>Failed to load music data. Is the backend running?</div>
@@ -55,6 +55,7 @@ const App: React.FC = () => {
           <>
             <div className={styles.actions}>
               <ExportButton songs={data.items} />
+              {isFetching && <span className={styles.fetchingIndicator}>Updating...</span>}
             </div>
 
             <SongsTable

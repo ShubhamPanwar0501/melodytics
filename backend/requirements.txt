@@ -2,6 +2,8 @@ fastapi
 uvicorn
 sqlalchemy
 psycopg2-binary
+asyncpg
+aiosqlite
 pydantic-settings
 alembic
 python-multipart

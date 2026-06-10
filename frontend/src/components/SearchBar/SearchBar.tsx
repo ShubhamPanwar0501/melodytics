@@ -5,7 +5,7 @@ import styles from './SearchBar.module.scss';
 
 const SearchBar: React.FC = () => {
     const [query, setQuery] = useState('');
-    const [result, setResult] = useState<Song | null>(null);
+    const [results, setResults] = useState<Song[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -14,18 +14,14 @@ const SearchBar: React.FC = () => {
         if (!query.trim()) return;
 
         setLoading(true);
-        setError(null);
-        setResult(null);
-
         try {
-            const song = await searchSong(query);
-            setResult(song);
-        } catch (err: any) {
-            if (err.response?.status === 404) {
-                setError('No song found with that exact title.');
-            } else {
-                setError('Something went wrong.');
+            const songs = await searchSong(query);
+            setResults(songs);
+            if (songs.length === 0) {
+                setError('No songs found matching your search.');
             }
+        } catch (err: any) {
+            setError('Something went wrong.');
         } finally {
             setLoading(false);
         }
@@ -37,7 +33,7 @@ const SearchBar: React.FC = () => {
                 <input
                     type="text"
                     className={styles.input}
-                    placeholder="Search by exact song title..."
+                    placeholder="Search songs..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
@@ -46,17 +42,17 @@ const SearchBar: React.FC = () => {
                 </button>
             </form>
 
-            {(result || error) && (
+            {(results.length > 0 || error) && (
                 <div className={styles.results}>
                     {error && <div className={styles.error}>{error}</div>}
-                    {result && (
-                        <div className={styles.songResult}>
-                            <strong>{result.title}</strong> — Energy: {result.energy?.toFixed(2)} | Danceability: {result.danceability?.toFixed(2)}
+                    {results.map((song) => (
+                        <div key={song.id} className={styles.songResult}>
+                            <strong>{song.title}</strong> — Energy: {song.energy?.toFixed(2)} | Danceability: {song.danceability?.toFixed(2)}
                         </div>
-                    )}
+                    ))}
                     <button
                         className={styles.closeBtn}
-                        onClick={() => { setResult(null); setError(null); }}
+                        onClick={() => { setResults([]); setError(null); }}
                         style={{ float: 'right', background: 'none', color: '#9ca3af', fontSize: '0.8rem' }}
                     >
                         Clear

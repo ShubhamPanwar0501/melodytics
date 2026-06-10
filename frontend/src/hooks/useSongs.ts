@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { getSongs } from '../api/client';
 
 export const useSongs = (
@@ -10,5 +10,6 @@ export const useSongs = (
     return useQuery({
         queryKey: ['songs', page, pageSize, sortBy, order],
         queryFn: () => getSongs(page, pageSize, sortBy, order),
+        placeholderData: keepPreviousData,
     });
 };

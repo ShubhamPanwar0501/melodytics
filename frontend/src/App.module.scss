@@ -43,6 +43,20 @@
 
 .actions {
     @include m.flex-between;
+    margin-bottom: v.$spacing-md;
+
+    .fetchingIndicator {
+        font-size: 0.8rem;
+        color: v.$color-primary;
+        font-weight: 500;
+        animation: pulse 1.5s infinite;
+    }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
 }
 
 .dashboard {
